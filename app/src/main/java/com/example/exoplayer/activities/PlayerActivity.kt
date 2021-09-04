@@ -38,17 +38,9 @@ class PlayerActivity : AppCompatActivity() {
     private val playbackStateListener: Player.Listener = playbackStateListener()
     private var player: SimpleExoPlayer? = null
 
-    private var playWhenReady = true
-    private var currentWindow = 0
-    private var playbackPosition = 0L
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
-        playWhenReady = sharedPreferences.getAutoPlay()
-        currentWindow = sharedPreferences.getWindow()
-        playbackPosition = sharedPreferences.getPosition()
     }
 
     override fun onStart() {
@@ -99,8 +91,8 @@ class PlayerActivity : AppCompatActivity() {
                     exoPlayer.addMediaItem(MediaItem.fromUri(it?.uri.toString()))
                 }
 
-                exoPlayer.playWhenReady = playWhenReady
-                exoPlayer.seekTo(currentWindow, playbackPosition)
+                exoPlayer.playWhenReady = sharedPreferences.getAutoPlay()
+                exoPlayer.seekTo(sharedPreferences.getWindow(), sharedPreferences.getPosition())
                 exoPlayer.addListener(playbackStateListener)
                 exoPlayer.prepare()
             }
