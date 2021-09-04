@@ -1,0 +1,14 @@
+<!--
+  ~ Created by Lukas (LukaLike) on Sat, Sep 4, '21.
+  ~ Copyright (c) 2021. All rights reserved.
+  -->
+
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.ExoPlayer" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+</resources>

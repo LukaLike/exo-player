@@ -1,0 +1,19 @@
+{
+  "samples": [
+    {
+      "uri": "https://storage.googleapis.com/exoplayer-test-media-1/gen-3/screens/dash-vod-single-segment/video-avc-baseline-480.mp4"
+    },
+    {
+      "uri": "https://html5demos.com/assets/dizzy.mp4"
+    },
+    {
+      "uri": "https://fauwen1.radioca.st/stream?type=http&amp;nocache=1966"
+    },
+    {
+      "uri": "https://storage.googleapis.com/exoplayer-test-media-1/mp4/frame-counter-one-hour.mp4"
+    },
+    {
+      "uri": "http://c22.plius.tv:64144/lrt2/index.m3u8"
+    }
+  ]
+}

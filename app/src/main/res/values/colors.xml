@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Lukas (LukaLike) on Sat, Sep 4, '21.
+  ~ Copyright (c) 2021. All rights reserved.
+  -->
+
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+</resources>
