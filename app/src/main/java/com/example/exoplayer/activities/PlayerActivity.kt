@@ -9,19 +9,27 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.exoplayer.databinding.ActivityPlayerBinding
+import com.example.exoplayer.models.Media
+import com.example.exoplayer.util.SharedPreferences
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.util.Util
-import com.example.exoplayer.models.Media
-import com.google.android.exoplayer2.MediaItem
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlin.math.max
 
 
 private const val TAG = "PlayerActivity"
 
+@AndroidEntryPoint
 class PlayerActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     private val viewBinding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityPlayerBinding.inflate(layoutInflater)
@@ -37,6 +45,10 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        playWhenReady = sharedPreferences.getAutoPlay()
+        currentWindow = sharedPreferences.getWindow()
+        playbackPosition = sharedPreferences.getPosition()
     }
 
     override fun onStart() {
@@ -96,13 +108,19 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun releasePlayer() {
         player?.run {
-            playbackPosition = this.currentPosition
-            currentWindow = this.currentWindowIndex
-            playWhenReady = this.playWhenReady
+            updateStartPosition()
             removeListener(playbackStateListener)
             release()
         }
         player = null
+    }
+
+    private fun updateStartPosition() {
+        if (player != null) {
+            sharedPreferences.setAutoPlay(player!!.playWhenReady)
+            sharedPreferences.setWindow(player!!.currentWindowIndex)
+            sharedPreferences.setPosition(max(0, player!!.contentPosition))
+        }
     }
 
 }

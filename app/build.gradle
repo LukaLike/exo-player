@@ -6,6 +6,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -55,6 +57,10 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.15.0'
     implementation 'com.google.android.exoplayer:exoplayer-hls:2.15.0'
     implementation 'com.google.android.exoplayer:exoplayer-transformer:2.15.0'
+
+    // Dependency injection with Hilt
+    implementation 'com.google.dagger:hilt-android:2.38.1'
+    kapt 'com.google.dagger:hilt-android-compiler:2.38.1'
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.7'
