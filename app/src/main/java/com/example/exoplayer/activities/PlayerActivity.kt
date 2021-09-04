@@ -117,8 +117,8 @@ class PlayerActivity : AppCompatActivity() {
                     exoPlayer.addMediaItem(MediaItem.fromUri(it?.uri.toString()))
                 }
 
-                exoPlayer.playWhenReady = playWhenReady
-                exoPlayer.seekTo(currentWindow, playbackPosition)
+                exoPlayer.playWhenReady = sharedPreferences.getAutoPlay()
+                exoPlayer.seekTo(sharedPreferences.getWindow(), sharedPreferences.getPosition())
                 exoPlayer.addListener(playbackStateListener)
                 exoPlayer.prepare()
             }
@@ -139,6 +139,50 @@ class PlayerActivity : AppCompatActivity() {
             sharedPreferences.setWindow(player!!.currentWindowIndex)
             sharedPreferences.setPosition(max(0, player!!.contentPosition))
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun subscribeToApi() {
+        Observable.interval(
+            DELAY, PERIOD,
+            TimeUnit.MILLISECONDS
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ randomNumberEndpoint() }) {
+                Log.w(TAG, it)
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun randomNumberEndpoint() {
+        val observable: Observable<Message> = messagesAPI.getMessage()
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+            .map { result: Message -> result.value }
+            .subscribe({
+                displayPopup(it)
+            }) {
+                Log.w(TAG, it)
+            }
+    }
+
+    private fun displayPopup(value: String) {
+        if (alertDialog.isShowing) {
+            alertDialog.dismiss()
+        }
+
+        val builder = AlertDialog.Builder(this)
+            .setMessage("Received value from API: $value")
+            .setPositiveButton(getString(R.string.got_it)) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    companion object {
+        private const val DELAY = 1000L
+        private const val PERIOD = 30000L
     }
 
     @SuppressLint("CheckResult")
