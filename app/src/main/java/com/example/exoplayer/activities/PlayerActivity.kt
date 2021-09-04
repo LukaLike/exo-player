@@ -8,8 +8,9 @@ package com.example.exoplayer.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.exoplayer.R
 import com.example.exoplayer.data.models.Message
 import com.example.exoplayer.data.service_factories.MessagesServiceFactory
 import com.example.exoplayer.data.services.MessagesService
@@ -47,6 +48,7 @@ class PlayerActivity : AppCompatActivity() {
     private val playbackStateListener: Player.Listener = playbackStateListener()
     private var player: SimpleExoPlayer? = null
 
+    private lateinit var alertDialog: AlertDialog
     private lateinit var messagesAPI: MessagesService
 
     private var playWhenReady = true
@@ -62,6 +64,8 @@ class PlayerActivity : AppCompatActivity() {
         playbackPosition = sharedPreferences.getPosition()
 
         messagesAPI = MessagesServiceFactory.create()
+        alertDialog = AlertDialog.Builder(this).create()
+
         subscribeToApi()
     }
 
@@ -155,10 +159,25 @@ class PlayerActivity : AppCompatActivity() {
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
             .map { result: Message -> result.value }
             .subscribe({
-                Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
+                displayPopup(it)
             }) {
                 Log.w(TAG, it)
             }
+    }
+
+    private fun displayPopup(value: String) {
+        if (alertDialog.isShowing) {
+            alertDialog.dismiss()
+        }
+
+        val builder = AlertDialog.Builder(this)
+            .setMessage("Received value from API: $value")
+            .setPositiveButton(getString(R.string.got_it)) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        alertDialog = builder.create()
+        alertDialog.show()
     }
 
     companion object {
