@@ -13,6 +13,6 @@
 
 ## Design
 
-|   Main View  | Notification View | 
-| ------------ | ----------------- | 
-| ![alt text](https://github.com/LukaLike/demo/blob/master/exo_player_1.png?raw=true)   | ![alt text](https://github.com/LukaLike/demo/blob/master/exo_player_2.png?raw=true)
+|   Main View  | Popup View | 
+| ------------ | ---------- | 
+| ![alt text](https://github.com/LukaLike/demo/blob/master/exo_player_1.png?raw=true)   | ![alt text](https://github.com/LukaLike/demo/blob/master/exo_player_dialog.png?raw=true)
