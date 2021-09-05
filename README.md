@@ -3,7 +3,7 @@
 ## Features
 - Plays audio and video over the Internet from the provided url samples
 - After reopening the app it loads the last watched video and timestamp
-- Every 30 seconds calls the API for the specified url and shows the retrieved result via Toast
+- Every 30 seconds calls the API for the specified url and shows the retrieved result via AlertDialog
 
 ## Used technologies
 - Android Studio IDE
