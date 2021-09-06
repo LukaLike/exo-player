@@ -185,50 +185,6 @@ class PlayerActivity : AppCompatActivity() {
         private const val PERIOD = 30000L
     }
 
-    @SuppressLint("CheckResult")
-    private fun subscribeToApi() {
-        Observable.interval(
-            DELAY, PERIOD,
-            TimeUnit.MILLISECONDS
-        )
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ randomNumberEndpoint() }) {
-                Log.w(TAG, it)
-            }
-    }
-
-    @SuppressLint("CheckResult")
-    private fun randomNumberEndpoint() {
-        val observable: Observable<Message> = messagesAPI.getMessage()
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-            .map { result: Message -> result.value }
-            .subscribe({
-                displayPopup(it)
-            }) {
-                Log.w(TAG, it)
-            }
-    }
-
-    private fun displayPopup(value: String) {
-        if (alertDialog.isShowing) {
-            alertDialog.dismiss()
-        }
-
-        val builder = AlertDialog.Builder(this)
-            .setMessage("Received value from API: $value")
-            .setPositiveButton(getString(R.string.got_it)) { dialog, _ ->
-                dialog.dismiss()
-            }
-
-        alertDialog = builder.create()
-        alertDialog.show()
-    }
-
-    companion object {
-        private const val DELAY = 1000L
-        private const val PERIOD = 30000L
-    }
-
 }
 
 private fun playbackStateListener() = object : Player.Listener {
